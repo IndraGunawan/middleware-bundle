@@ -1,5 +1,7 @@
 {
     "name": "indragunawan/middleware-bundle",
+    "description": "Before and After filter implementation by using annotation",
+    "keywords": ["event", "filter", "middleware", "symfony"],
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
