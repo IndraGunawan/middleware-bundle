@@ -62,7 +62,7 @@ final class FilterSubscriber implements EventSubscriberInterface
         $middlewares = $this->middleware->getMiddlewares('before_filter', $filters);
 
         foreach ($middlewares as $middleware) {
-            $middleware->onBeforeFilter($event->getRequest(), $controller, $event->getRequestType());
+            $middleware->onBeforeFilter($event->getRequest(), [$className, $controller[1]], $event->getRequestType());
         }
     }
 
@@ -75,7 +75,7 @@ final class FilterSubscriber implements EventSubscriberInterface
         $controller = $event->getRequest()->attributes->get('_controller');
         // $controller value should like 'App\Controller\HomepageController::index'
         $controller = explode('::', $controller);
-        if (!\is_array($controller) || 2 !== \count($controller)) {
+        if (!\is_array($controller) || 2 !== \count($controller) || !class_exists($controller[0])) {
             return;
         }
 
