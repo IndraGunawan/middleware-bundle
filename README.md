@@ -79,7 +79,9 @@ class HomepageController extends AbstractController
 }
 ```
 
-License
--------
+## TODO
+- Add tests
+
+## License
 
 This bundle is under the MIT license. See the complete [license](LICENSE)
