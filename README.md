@@ -30,7 +30,7 @@ use Indragunawan\MiddlewareBundle\Middleware\AfterFilterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Subscribed implements BeforeFilterInterface // you can implement multi filter at once
+class Subscribed implements BeforeFilterInterface //, AfterFilterInterface // you can implement multi filter at once
 {
     public static function supports()
     {
