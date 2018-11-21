@@ -4,12 +4,18 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="indragunawan_middleware.filter.listener" class="Indragunawan\MiddlewareBundle\EventSubscriber\FilterSubscriber" public="false">
+        <service id="indragunawan_middleware.subscriber.filter" class="Indragunawan\MiddlewareBundle\EventSubscriber\FilterSubscriber" public="false">
             <tag name="kernel.event_subscriber" />
             <argument type="service" id="annotation_reader" />
             <argument type="service" id="indragunawan_middleware.middleware" />
         </service>
 
         <service id="indragunawan_middleware.middleware" class="Indragunawan\MiddlewareBundle\Middleware" public="false" />
+
+        <service id="indragunawan_middleware.subscriber.exception" class="Indragunawan\MiddlewareBundle\EventSubscriber\ExceptionSubscriber" public="false">
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="annotation_reader" />
+            <argument type="service" id="indragunawan_middleware.middleware" />
+        </service>
     </services>
 </container>

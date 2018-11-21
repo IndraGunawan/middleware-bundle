@@ -24,6 +24,8 @@ interface AfterFilterInterface extends MiddlewareInterface
      * @param Response $response
      * @param array    $controller
      * @param int|null $requestType
+     *
+     * @return void|Response
      */
     public function onAfterFilter(Request $request, Response $response, array $controller, ?int $requestType);
 }

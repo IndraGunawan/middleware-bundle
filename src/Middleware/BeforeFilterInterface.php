@@ -12,6 +12,7 @@
 namespace Indragunawan\MiddlewareBundle\Middleware;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Indra Gunawan <hello@indra.my.id>
@@ -22,6 +23,8 @@ interface BeforeFilterInterface extends MiddlewareInterface
      * @param Request  $request
      * @param array    $controller
      * @param int|null $requestType
+     *
+     * @return void|Response
      */
     public function onBeforeFilter(Request $request, array $controller, ?int $requestType);
 }

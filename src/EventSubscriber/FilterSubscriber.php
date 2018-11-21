@@ -15,8 +15,10 @@ use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Util\ClassUtils;
 use Indragunawan\MiddlewareBundle\Annotation\AfterFilter;
 use Indragunawan\MiddlewareBundle\Annotation\BeforeFilter;
+use Indragunawan\MiddlewareBundle\Exception\SkipControllerException;
 use Indragunawan\MiddlewareBundle\Middleware;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -62,7 +64,10 @@ final class FilterSubscriber implements EventSubscriberInterface
         $middlewares = $this->middleware->getMiddlewares('before_filter', $filters);
 
         foreach ($middlewares as $middleware) {
-            $middleware->onBeforeFilter($event->getRequest(), [$className, $controller[1]], $event->getRequestType());
+            $response = $middleware->onBeforeFilter($event->getRequest(), [$className, $controller[1]], $event->getRequestType());
+            if ($response instanceof Response) {
+                throw new SkipControllerException($response);
+            }
         }
     }
 
@@ -82,7 +87,10 @@ final class FilterSubscriber implements EventSubscriberInterface
         $filters = $this->getClassAnnotations($controller[0], $controller[1], AfterFilter::class);
         $middlewares = $this->middleware->getMiddlewares('after_filter', $filters);
         foreach ($middlewares as $middleware) {
-            $middleware->onAfterFilter($event->getRequest(), $event->getResponse(), $controller, $event->getRequestType());
+            $response = $middleware->onAfterFilter($event->getRequest(), $event->getResponse(), $controller, $event->getRequestType());
+            if ($response instanceof Response) {
+                $event->setResponse($response);
+            }
         }
     }
 
