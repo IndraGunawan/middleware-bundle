@@ -53,7 +53,7 @@ final class AddMiddlewarePass implements CompilerPassInterface
                     $name = $supports[0];
                     $priority = isset($supports[1]) ? $supports[1] : 0;
                 } else {
-                    throw InvalidArgumentException(sprintf('Invalid return format "supports" of class "%s".', $class));
+                    throw new InvalidArgumentException(sprintf('Invalid return format "supports" of class "%s".', $class));
                 }
 
                 $definition->addMethodCall('addMiddleware', [$attr['event'], $name, new ServiceClosureArgument(new Reference($id)), $priority]);
