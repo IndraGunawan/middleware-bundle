@@ -64,10 +64,7 @@ final class FilterSubscriber implements EventSubscriberInterface
         $middlewares = $this->middleware->getMiddlewares('before_filter', $filters);
 
         foreach ($middlewares as $middleware) {
-            $response = $middleware->onBeforeFilter($event->getRequest(), [$className, $controller[1]], $event->getRequestType());
-            if ($response instanceof Response) {
-                throw new SkipControllerException($response);
-            }
+            $middleware->onBeforeFilter($event->getRequest(), [$className, $controller[1]], $event->getRequestType());
         }
     }
 
@@ -87,10 +84,7 @@ final class FilterSubscriber implements EventSubscriberInterface
         $filters = $this->getClassAnnotations($controller[0], $controller[1], AfterFilter::class);
         $middlewares = $this->middleware->getMiddlewares('after_filter', $filters);
         foreach ($middlewares as $middleware) {
-            $response = $middleware->onAfterFilter($event->getRequest(), $event->getResponse(), $controller, $event->getRequestType());
-            if ($response instanceof Response) {
-                $event->setResponse($response);
-            }
+            $middleware->onAfterFilter($event->getRequest(), $event->getResponse(), $controller, $event->getRequestType());
         }
     }
 
