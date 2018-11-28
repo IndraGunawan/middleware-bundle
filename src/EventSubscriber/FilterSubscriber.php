@@ -94,8 +94,8 @@ final class FilterSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::CONTROLLER => ['onKernelController', -255], //expect priority -255 is the last
-            KernelEvents::RESPONSE => ['onKernelResponse', 255], //expect priority 255 is the first
+            KernelEvents::CONTROLLER => ['onKernelController', 255],
+            KernelEvents::RESPONSE => ['onKernelResponse', 255],
         ];
     }
 
