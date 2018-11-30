@@ -51,8 +51,8 @@ final class FilterSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::CONTROLLER => ['onKernelController', 255],
-            KernelEvents::RESPONSE => ['onKernelResponse', 255],
+            KernelEvents::CONTROLLER => ['onKernelController', 128],
+            KernelEvents::RESPONSE => ['onKernelResponse', 128],
         ];
     }
 
@@ -87,6 +87,10 @@ final class FilterSubscriber implements EventSubscriberInterface
     {
         // in request attributes '_controller' we trust
         $controller = $event->getRequest()->attributes->get('_controller');
+        if (null === $controller) {
+            return;
+        }
+
         // $controller value should like 'App\Controller\HomepageController::index'
         $controller = explode('::', $controller);
         if (2 !== \count($controller) || !class_exists($controller[0])) {
