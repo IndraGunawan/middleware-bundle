@@ -17,6 +17,7 @@ return PhpCsFixer\Config::create()
         'psr4' => true,
         'array_syntax' => ['syntax' => 'short'],
         'combine_consecutive_unsets' => true,
+        'declare_strict_types' => true,
         'phpdoc_add_missing_param_annotation' => ['only_untyped' => false],
         'general_phpdoc_annotation_remove' => ['expectedException', 'expectedExceptionMessage', 'expectedExceptionMessageRegExp'],
         'header_comment' => ['header' => $header],
