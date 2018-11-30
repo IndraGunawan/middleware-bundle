@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the MiddlewareBundle
  *
@@ -15,7 +17,6 @@ use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Util\ClassUtils;
 use Indragunawan\MiddlewareBundle\Annotation\AfterFilter;
 use Indragunawan\MiddlewareBundle\Annotation\BeforeFilter;
-use Indragunawan\MiddlewareBundle\Exception\SkipControllerException;
 use Indragunawan\MiddlewareBundle\Middleware;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,6 +43,17 @@ final class FilterSubscriber implements EventSubscriberInterface
     {
         $this->reader = $reader;
         $this->middleware = $middleware;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::CONTROLLER => ['onKernelController', 255],
+            KernelEvents::RESPONSE => ['onKernelResponse', 255],
+        ];
     }
 
     /**
@@ -77,7 +89,7 @@ final class FilterSubscriber implements EventSubscriberInterface
         $controller = $event->getRequest()->attributes->get('_controller');
         // $controller value should like 'App\Controller\HomepageController::index'
         $controller = explode('::', $controller);
-        if (!\is_array($controller) || 2 !== \count($controller) || !class_exists($controller[0])) {
+        if (2 !== \count($controller) || !class_exists($controller[0])) {
             return;
         }
 
@@ -86,17 +98,6 @@ final class FilterSubscriber implements EventSubscriberInterface
         foreach ($middlewares as $middleware) {
             $middleware->onAfterFilter($event->getRequest(), $event->getResponse(), $controller, $event->getRequestType());
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents()
-    {
-        return [
-            KernelEvents::CONTROLLER => ['onKernelController', 255],
-            KernelEvents::RESPONSE => ['onKernelResponse', 255],
-        ];
     }
 
     /**

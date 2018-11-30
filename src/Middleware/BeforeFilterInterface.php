@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the MiddlewareBundle
  *
@@ -12,7 +14,6 @@
 namespace Indragunawan\MiddlewareBundle\Middleware;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Indra Gunawan <hello@indra.my.id>

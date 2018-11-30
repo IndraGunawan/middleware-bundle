@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the MiddlewareBundle
  *
@@ -28,9 +30,9 @@ final class FilterTest extends TestCase
     public function testValidArgument($values)
     {
         $beforeFilter = new BeforeFilter($values);
-        $this->assertSame((array) $values['value'], $beforeFilter->getNames());
-        $this->assertSame((array) ($values['only'] ?? []), $beforeFilter->getOnly());
-        $this->assertSame((array) ($values['except'] ?? []), $beforeFilter->getExcept());
+        self::assertSame((array) $values['value'], $beforeFilter->getNames());
+        self::assertSame((array) ($values['only'] ?? []), $beforeFilter->getOnly());
+        self::assertSame((array) ($values['except'] ?? []), $beforeFilter->getExcept());
     }
 
     /**
@@ -50,15 +52,15 @@ final class FilterTest extends TestCase
     public function testIsSupportsMethod()
     {
         $filter = new BeforeFilter(['value' => 'check']);
-        $this->assertTrue($filter->isSupportsMethod('index'));
+        self::assertTrue($filter->isSupportsMethod('index'));
 
         $filter = new AfterFilter(['value' => 'check', 'only' => 'index']);
-        $this->assertTrue($filter->isSupportsMethod('index'));
-        $this->assertFalse($filter->isSupportsMethod('delete'));
+        self::assertTrue($filter->isSupportsMethod('index'));
+        self::assertFalse($filter->isSupportsMethod('delete'));
 
         $filter = new BeforeFilter(['value' => 'check', 'except' => 'index']);
-        $this->assertFalse($filter->isSupportsMethod('index'));
-        $this->assertTrue($filter->isSupportsMethod('delete'));
+        self::assertFalse($filter->isSupportsMethod('index'));
+        self::assertTrue($filter->isSupportsMethod('delete'));
     }
 
     public function validArgumentProvider()
