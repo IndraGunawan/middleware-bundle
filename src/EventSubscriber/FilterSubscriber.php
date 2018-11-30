@@ -15,7 +15,6 @@ use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Util\ClassUtils;
 use Indragunawan\MiddlewareBundle\Annotation\AfterFilter;
 use Indragunawan\MiddlewareBundle\Annotation\BeforeFilter;
-use Indragunawan\MiddlewareBundle\Exception\SkipControllerException;
 use Indragunawan\MiddlewareBundle\Middleware;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;

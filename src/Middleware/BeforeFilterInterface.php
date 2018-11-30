@@ -12,7 +12,6 @@
 namespace Indragunawan\MiddlewareBundle\Middleware;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Indra Gunawan <hello@indra.my.id>
