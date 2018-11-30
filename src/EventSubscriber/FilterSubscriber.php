@@ -46,6 +46,17 @@ final class FilterSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::CONTROLLER => ['onKernelController', 255],
+            KernelEvents::RESPONSE => ['onKernelResponse', 255],
+        ];
+    }
+
+    /**
      * @param FilterControllerEvent $event
      */
     public function onKernelController(FilterControllerEvent $event)
@@ -78,7 +89,7 @@ final class FilterSubscriber implements EventSubscriberInterface
         $controller = $event->getRequest()->attributes->get('_controller');
         // $controller value should like 'App\Controller\HomepageController::index'
         $controller = explode('::', $controller);
-        if (!\is_array($controller) || 2 !== \count($controller) || !class_exists($controller[0])) {
+        if (2 !== \count($controller) || !class_exists($controller[0])) {
             return;
         }
 
@@ -87,17 +98,6 @@ final class FilterSubscriber implements EventSubscriberInterface
         foreach ($middlewares as $middleware) {
             $middleware->onAfterFilter($event->getRequest(), $event->getResponse(), $controller, $event->getRequestType());
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents()
-    {
-        return [
-            KernelEvents::CONTROLLER => ['onKernelController', 255],
-            KernelEvents::RESPONSE => ['onKernelResponse', 255],
-        ];
     }
 
     /**

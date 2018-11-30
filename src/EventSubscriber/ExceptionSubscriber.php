@@ -23,6 +23,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 final class ExceptionSubscriber implements EventSubscriberInterface
 {
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::EXCEPTION => ['onKernelException', 255],
+        ];
+    }
+
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
@@ -33,12 +40,5 @@ final class ExceptionSubscriber implements EventSubscriberInterface
 
         $event->allowCustomResponseCode();
         $event->setResponse($exception->getResponse());
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return [
-            KernelEvents::EXCEPTION => ['onKernelException', 255],
-        ];
     }
 }
